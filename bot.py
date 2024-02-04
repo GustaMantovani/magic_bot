@@ -2,7 +2,9 @@
 import os
 from dotenv import load_dotenv
 import requests
-import io
+from PIL import Image
+from io import BytesIO
+import tempfile
 
 #discord lib imports
 import discord
@@ -42,65 +44,97 @@ async def on_ready():
 #Functions
 
 def extract_color_hex(color_name):
-    color_name = color_name.lower()
     # Dicionário de mapeamento de nomes de cores para códigos hexadecimais
     color_map = {
-        "red": "#FF0000",
-        "green": "#00FF00",
-        "blue": "#0000FF",
-        "white": "#FFFFFF",
-        "black": "#000000",
+        "R": 15548997,
+        "G": 5763719,
+        "U": 3447003,
+        "W": 16777215,
+        "B": 2303786,
     }
 
-    # Convertendo o nome da cor para minúsculas para corresponder ao dicionário
-    color_name_lower = color_name.lower()
-
     # Verificando se o nome da cor está no dicionário
-    if color_name_lower in color_map:
-        return color_map[color_name_lower]
+    if color_name in color_map:
+        return color_map[color_name]
     else:
         return None  # Retorna None se a cor não estiver no dicionário
+
+def gen_magic_api_len_by_user_input(len):
+    lista_linguagens = {
+        'zh-cn': 'Chinese Simplified',
+        'zh-tw': 'Chinese Traditional',
+        'fr': 'French',
+        'de': 'German',
+        'it': 'Italian',
+        'ja': 'Japanese',
+        'ko': 'Korean',
+        'pt-br': 'Portuguese (Brazil)',
+        'ru': 'Russian',
+        'es': 'Spanish'
+    }
+
+    return lista_linguagens[len]
+
 #
 
 #Commands
 @bot.command()
-async def info(ctx, cardName):
+async def info(ctx, len,cardName):
     async with channel.typing(ctx):
-        cards = Card.where(name=cardName).all()
+        len = gen_magic_api_len_by_user_input(len)
+        cards = Card.where(language=len,name=cardName).all()
         if cards:
             card_data = cards[0]
             
             name = card_data.name
             mana_cost = card_data.mana_cost
             #total_mana_cost = card_data.cmc
-            colors = card_data.colors
+            colors = card_data.color_identity
             type_ = card_data.type
             rarity = card_data.rarity
-            set_ = card_data.set
             text = card_data.text
             artist = card_data.artist
             power = card_data.power
             toughness = card_data.toughness
             imageURL = card_data.image_url
             
-            response = requests.get(imageURL)
+
+            '''r = requests.get(imageURL)
+            print(r.content)
+            imagem = Image.open(BytesIO(r.content))
+
+            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
+                # Salvar a imagem no arquivo temporário
+                imagem.save(temp_file.name)
+
+            # Obter o caminho do arquivo temporário
+            temp_file_path = temp_file.name
+            file = discord.File(temp_file_path, filename="image.png")'''
 
             embed = discord.Embed(title=name,description=text, color=extract_color_hex(colors[0]))
-
-            embed.set_thumbnail(url="")
-            embed.add_field(name="Artist", value=artist, inline=False)
-            
+            #embed.set_thumbnail(url="attachment://image.png")
             embed.add_field(name="Type", value=type_, inline=True)
             embed.add_field(name="Mana Cost", value=mana_cost, inline=True)
-            embed.add_field(name="Power", value=power, inline=True)
-            embed.add_field(name="Toughness", value=toughness, inline=True)
+            embed.add_field(name="Power/Toughness", value=power+"/"+toughness, inline=True)
             embed.add_field(name="Rarity", value=rarity, inline=True)
-            embed.add_field(name="Set", value=set_, inline=True)
+            embed.add_field(name="Artist", value=artist, inline=False)
 
             await ctx.send(embed=embed)            
         else:
             await ctx.send('Não foi possível encontrar informações sobre essa carta.')
 
+    await channel.send('Done!')
+
+@bot.command()
+async def tr(ctx, original_len,cardName,target_len):
+    async with channel.typing(ctx):
+
+        original_len = gen_magic_api_len_by_user_input(original_len)
+        target_len = gen_magic_api_len_by_user_input(target_len)
+
+        cards = Card.where(language=original_len,name=cardName).all()
+        if cards:
+            names = cards[0]
     await channel.send('Done!')
 #
 
