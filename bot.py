@@ -1,10 +1,6 @@
 #env imports
 import os
 from dotenv import load_dotenv
-import requests
-from PIL import Image
-from io import BytesIO
-import tempfile
 
 #discord lib imports
 import discord
@@ -13,12 +9,6 @@ import logging
 
 #magic lib imports
 from mtgsdk import Card 
-from mtgsdk import Set
-from mtgsdk import Type
-from mtgsdk import Supertype
-from mtgsdk import Subtype
-from mtgsdk import Changelog
-from mtgsdk.restclient import json
 
 #Instances
 
@@ -91,13 +81,9 @@ async def info(ctx, len,cardName):
         if cards:
             card_data = cards[0]
             
-            #name = card_data.name
             mana_cost = card_data.mana_cost
-            #total_mana_cost = card_data.cmc
             colors = card_data.color_identity
-            #type_ = card_data.type
             rarity = card_data.rarity
-            #text = card_data.text
             artist = card_data.artist
             power = card_data.power
             toughness = card_data.toughness
@@ -113,19 +99,6 @@ async def info(ctx, len,cardName):
                 name = card_data.name
                 text = card_data.text
                 type_ = card_data.type
-
-                    
-            '''r = requests.get(imageURL)
-            print(r.content)
-            imagem = Image.open(BytesIO(r.content))
-
-            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
-                # Salvar a imagem no arquivo temporário
-                imagem.save(temp_file.name)
-
-            # Obter o caminho do arquivo temporário
-            temp_file_path = temp_file.name
-            file = discord.File(temp_file_path, filename="image.png")'''
 
             embed = discord.Embed(title=name,description=text, color=extract_color_hex(colors[0]))
             #embed.set_thumbnail(url="attachment://image.png")
