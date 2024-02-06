@@ -37,7 +37,7 @@ def extract_color_hex(color_name):
         "G": 5763719,
         "U": 3447003,
         "W": 16777215,
-        "B": 2303786,
+        "B": 2303786
     }
 
     # Verificando se o nome da cor está no dicionário
@@ -84,7 +84,6 @@ async def info(ctx, lang,cardName):
             artist = card_data.artist
             power = card_data.power
             toughness = card_data.toughness
-            imageURL = card_data.image_url
 
             if lang:
                 for card_in_lang in card_data.foreign_names:
