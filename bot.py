@@ -105,7 +105,29 @@ async def info(ctx, lang,cardName):
 
             await ctx.send(embed=embed)            
         else:
-            await ctx.send('Não foi possível encontrar informações sobre essa carta.')
+            # Mensagens de erro em diferentes idiomas
+            if lang == 'Chinese Simplified':
+                await ctx.send("找不到有关此卡的信息。")  # Mensagem em Chinês Simplificado
+            elif lang == 'Chinese Traditional':
+                await ctx.send("找不到有關此卡的信息。")  # Mensagem em Chinês Tradicional
+            elif lang == 'French':
+                await ctx.send("Impossible de trouver des informations sur cette carte.")  # Mensagem em Francês
+            elif lang == 'German':
+                await ctx.send("Konnte keine Informationen zu dieser Karte finden.")  # Mensagem em Alemão
+            elif lang == 'Italian':
+                await ctx.send("Impossibile trovare informazioni su questa carta.")  # Mensagem em Italiano
+            elif lang == 'Japanese':
+                await ctx.send("このカードに関する情報が見つかりませんでした。")  # Mensagem em Japonês
+            elif lang == 'Korean':
+                await ctx.send("이 카드에 대한 정보를 찾을 수 없습니다.")  # Mensagem em Coreano
+            elif lang == 'Portuguese (Brazil)':
+                await ctx.send("Não foi possível encontrar informações sobre essa carta.")  # Mensagem em Português (Brasil)
+            elif lang == 'Russian':
+                await ctx.send("Не удалось найти информацию об этой карте.")  # Mensagem em Russo
+            elif lang == 'Spanish':
+                await ctx.send("No se pudo encontrar información sobre esta carta.")  # Mensagem em Espanhol
+            else:
+                await ctx.send("Could not find information about this card.")  # Mensagem padrão em inglês
 
     await channel.send('Done!')
 
@@ -123,7 +145,120 @@ async def tr(ctx, original_lang,cardName,target_lang):
             for name in names:
                 if target_lang == name['language']:
                     await ctx.send(name['name'])
+                    return
+        else:
+            # Mensagens de erro em diferentes idiomas
+            if original_lang == 'Chinese Simplified':
+                await ctx.send("找不到有关此卡的信息。")  # Mensagem em Chinês Simplificado
+            elif original_lang == 'Chinese Traditional':
+                await ctx.send("找不到有關此卡的信息。")  # Mensagem em Chinês Tradicional
+            elif original_lang == 'French':
+                await ctx.send("Impossible de trouver des informations sur cette carte.")  # Mensagem em Francês
+            elif original_lang == 'German':
+                await ctx.send("Konnte keine Informationen zu dieser Karte finden.")  # Mensagem em Alemão
+            elif original_lang == 'Italian':
+                await ctx.send("Impossibile trovare informazioni su questa carta.")  # Mensagem em Italiano
+            elif original_lang == 'Japanese':
+                await ctx.send("このカードに関する情報が見つかりませんでした。")  # Mensagem em Japonês
+            elif original_lang == 'Korean':
+                await ctx.send("이 카드에 대한 정보를 찾을 수 없습니다.")  # Mensagem em Coreano
+            elif original_lang == 'Portuguese (Brazil)':
+                await ctx.send("Não foi possível encontrar informações sobre essa carta.")  # Mensagem em Português (Brasil)
+            elif original_lang == 'Russian':
+                await ctx.send("Не удалось найти информацию об этой карте.")  # Mensagem em Russo
+            elif original_lang == 'Spanish':
+                await ctx.send("No se pudo encontrar información sobre esta carta.")  # Mensagem em Espanhol
+            else:
+                await ctx.send("Could not find information about this card.")  # Mensagem padrão em inglês
     await channel.send('Done!')
+#
+    
+#Help
+@bot.command()
+async def help(ctx):
+    await ctx.send("Welcome to the MTG Information Bot!\n\n"
+                   "Use the following commands to interact with me:\n"
+                   "`Magic info [lang] [cardName]`: Get information about MTG cards.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Translate MTG card names into other languages.\n"
+                   "`Magic help [lang]`: Get help information.")
+
+@bot.command()
+async def ajuda(ctx):
+    await ctx.send("Bem-vindo ao Bot de Informações sobre MTG!\n\n"
+                   "Use os seguintes comandos para interagir comigo:\n"
+                   "`Magic info [lang] [cardName]`: Obtenha informações sobre cartas MTG.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Traduza nomes de cartas MTG para outros idiomas.\n"
+                   "`Magic ajuda [lang]`: Obtenha informações de ajuda.")
+
+@bot.command()
+async def ayuda(ctx):
+    await ctx.send("¡Bienvenido al Bot de Información de MTG!\n\n"
+                   "Utilice los siguientes comandos para interactuar conmigo:\n"
+                   "`Magic info [lang] [cardName]`: Obtenga información sobre las cartas de MTG.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Traduzca nombres de cartas de MTG a otros idiomas.\n"
+                   "`Magic ayuda [lang]`: Obtenga información de ayuda.")
+
+@bot.command()
+async def hilfe(ctx):
+    await ctx.send("Willkommen beim MTG Information Bot!\n\n"
+                   "Verwenden Sie die folgenden Befehle, um mit mir zu interagieren:\n"
+                   "`Magic info [lang] [cardName]`: Informationen über MTG-Karten abrufen.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Übersetzen Sie MTG-Kartennamen in andere Sprachen.\n"
+                   "`Magic hilfe [lang]`: Hilfeinformationen erhalten.")
+@bot.command()
+async def 帮助(ctx):
+    await ctx.send("欢迎使用 MTG 信息查询机器人！\n\n"
+                   "使用以下命令来与我互动：\n"
+                   "`Magic info [lang] [cardName]`: 获取关于 MTG 卡片的信息。\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: 将 MTG 卡片名称翻译成其他语言。\n"
+                   "`Magic 帮助 [lang]`: 获取帮助信息。")
+
+@bot.command()
+async def ヘルプ(ctx):
+    await ctx.send("MTG 情報ボットへようこそ！\n\n"
+                   "以下のコマンドを使用して私と対話してください：\n"
+                   "`Magic info [lang] [cardName]`: MTG カードの情報を取得します。\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: MTG カード名を他の言語に翻訳します。\n"
+                   "`Magic ヘルプ [lang]`: ヘルプ情報を取得します。")
+
+@bot.command()
+async def 도움말(ctx):
+    await ctx.send("MTG 정보 봇에 오신 것을 환영합니다!\n\n"
+                   "다음 명령을 사용하여 저와 상호 작용할 수 있습니다:\n"
+                   "`Magic info [lang] [cardName]`: MTG 카드 정보를 가져옵니다.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: MTG 카드 이름을 다른 언어로 번역합니다.\n"
+                   "`Magic 도움말 [lang]`: 도움말 정보를 얻습니다.")
+
+@bot.command()
+async def aiuto(ctx):
+    await ctx.send("Benvenuto nel Bot di Informazioni su MTG!\n\n"
+                   "Utilizza i seguenti comandi per interagire con me:\n"
+                   "`Magic info [lang] [cardName]`: Ottieni informazioni sulle carte MTG.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Traduci nomi di carte MTG in altre lingue.\n"
+                   "`Magic aiuto [lang]`: Ottieni informazioni di aiuto.")
+
+@bot.command()
+async def помощь(ctx):
+    await ctx.send("Добро пожаловать в Бот Информации о MTG!\n\n"
+                   "Используйте следующие команды для взаимодействия со мной:\n"
+                   "`Magic info [lang] [cardName]`: Получить информацию о картах MTG.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Перевести названия карт MTG на другие языки.\n"
+                   "`Magic помощь [lang]`: Получить информацию о помощи.")
+@bot.command()
+async def 도움말(ctx):
+    await ctx.send("MTG 정보 봇에 오신 것을 환영합니다!\n\n"
+                   "다음 명령을 사용하여 저와 상호 작용할 수 있습니다:\n"
+                   "`Magic info [lang] [cardName]`: MTG 카드 정보를 가져옵니다.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: MTG 카드 이름을 다른 언어로 번역합니다.\n"
+                   "`Magic 도움말 [lang]`: 도움말 정보를 얻습니다.")
+
+@bot.command()
+async def aide(ctx):
+    await ctx.send("Bienvenue sur le Bot d'Information MTG !\n\n"
+                   "Utilisez les commandes suivantes pour interagir avec moi :\n"
+                   "`Magic info [lang] [cardName]`: Obtenez des informations sur les cartes MTG.\n"
+                   "`Magic tr [original_lang] [cardName] [target_lang]`: Traduisez les noms de cartes MTG dans d'autres langues.\n"
+                   "`Magic aide [lang]`: Obtenez des informations d'aide.")
 #
 
 #Run 
