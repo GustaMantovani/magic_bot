@@ -244,13 +244,6 @@ async def помощь(ctx):
                    "`Magic info [lang] [cardName]`: Получить информацию о картах MTG.\n"
                    "`Magic tr [original_lang] [cardName] [target_lang]`: Перевести названия карт MTG на другие языки.\n"
                    "`Magic помощь [lang]`: Получить информацию о помощи.")
-@bot.command()
-async def 도움말(ctx):
-    await ctx.send("MTG 정보 봇에 오신 것을 환영합니다!\n\n"
-                   "다음 명령을 사용하여 저와 상호 작용할 수 있습니다:\n"
-                   "`Magic info [lang] [cardName]`: MTG 카드 정보를 가져옵니다.\n"
-                   "`Magic tr [original_lang] [cardName] [target_lang]`: MTG 카드 이름을 다른 언어로 번역합니다.\n"
-                   "`Magic 도움말 [lang]`: 도움말 정보를 얻습니다.")
 
 @bot.command()
 async def aide(ctx):
