@@ -70,7 +70,8 @@ def gen_magic_api_len_by_user_input(len):
         'ko': 'Korean',
         'pt-br': 'Portuguese (Brazil)',
         'ru': 'Russian',
-        'es': 'Spanish'
+        'es': 'Spanish',
+        'en': None
     }
 
     return lista_linguagens[len]
@@ -82,7 +83,11 @@ def gen_magic_api_len_by_user_input(len):
 async def info(ctx, len,cardName):
     async with channel.typing(ctx):
         len = gen_magic_api_len_by_user_input(len)
-        cards = Card.where(language=len,name=cardName).all()
+        if len:
+            cards = Card.where(language=len,name=cardName).all()
+        else:
+            cards = Card.where(name=cardName).all()
+
         if cards:
             card_data = cards[0]
             
@@ -90,19 +95,25 @@ async def info(ctx, len,cardName):
             mana_cost = card_data.mana_cost
             #total_mana_cost = card_data.cmc
             colors = card_data.color_identity
-            type_ = card_data.type
+            #type_ = card_data.type
             rarity = card_data.rarity
             #text = card_data.text
             artist = card_data.artist
             power = card_data.power
             toughness = card_data.toughness
             imageURL = card_data.image_url
-            
 
-            for card_in_lang in card_data.foreign_names:
-                if len == card_in_lang['language']:
-                    name = card_in_lang['name']
-                    text = card_in_lang['text']
+            if len:
+                for card_in_lang in card_data.foreign_names:
+                    if len == card_in_lang['language']:
+                        name = card_in_lang['name']
+                        text = card_in_lang['text']
+                        type_ = card_in_lang['type']
+            else:
+                name = card_data.name
+                text = card_data.text
+                type_ = card_data.type
+
                     
             '''r = requests.get(imageURL)
             print(r.content)
@@ -153,4 +164,3 @@ disc_api_key = os.getenv('DISCORD_API_KEY')
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 bot.run(str(disc_api_key), log_handler=handler, log_level=logging.DEBUG)
 #
-
