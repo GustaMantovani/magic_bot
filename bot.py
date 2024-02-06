@@ -12,7 +12,7 @@ from discord.ext import commands
 import logging
 
 #magic lib imports
-from mtgsdk import Card, card
+from mtgsdk import Card 
 from mtgsdk import Set
 from mtgsdk import Type
 from mtgsdk import Supertype
@@ -44,7 +44,7 @@ async def on_ready():
 #Functions
 
 def extract_color_hex(color_name):
-    # Dicionário de mapeamento de nomes de cores para códigos hexadecimais
+    # Dicionário de mapeamento de nomes de cores para inteiros da api do discord
     color_map = {
         "R": 15548997,
         "G": 5763719,
@@ -86,19 +86,24 @@ async def info(ctx, len,cardName):
         if cards:
             card_data = cards[0]
             
-            name = card_data.name
+            #name = card_data.name
             mana_cost = card_data.mana_cost
             #total_mana_cost = card_data.cmc
             colors = card_data.color_identity
             type_ = card_data.type
             rarity = card_data.rarity
-            text = card_data.text
+            #text = card_data.text
             artist = card_data.artist
             power = card_data.power
             toughness = card_data.toughness
             imageURL = card_data.image_url
             
 
+            for card_in_lang in card_data.foreign_names:
+                if len == card_in_lang['language']:
+                    name = card_in_lang['name']
+                    text = card_in_lang['text']
+                    
             '''r = requests.get(imageURL)
             print(r.content)
             imagem = Image.open(BytesIO(r.content))
@@ -134,7 +139,11 @@ async def tr(ctx, original_len,cardName,target_len):
 
         cards = Card.where(language=original_len,name=cardName).all()
         if cards:
-            names = cards[0]
+            names = cards[0].foreign_names
+
+            for name in names:
+                if target_len == name['language']:
+                    await ctx.send(name['name'])
     await channel.send('Done!')
 #
 
