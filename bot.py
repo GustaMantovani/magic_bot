@@ -20,9 +20,6 @@ bot = commands.Bot(command_prefix='Magic ', intents=intents, help_command = None
 
 ###Channel
 channel = discord.channel.TextChannel
-
-##Magic Lib
-
 #
 
 #Init
@@ -49,7 +46,7 @@ def extract_color_hex(color_name):
     else:
         return None  # Retorna None se a cor não estiver no dicionário
 
-def gen_magic_api_len_by_user_input(len):
+def gen_magic_api_lang_by_user_input(lang):
     lista_linguagens = {
         'zh-cn': 'Chinese Simplified',
         'zh-tw': 'Chinese Traditional',
@@ -64,17 +61,17 @@ def gen_magic_api_len_by_user_input(len):
         'en': None
     }
 
-    return lista_linguagens[len]
+    return lista_linguagens[lang]
 
 #
 
 #Commands
 @bot.command()
-async def info(ctx, len,cardName):
+async def info(ctx, lang,cardName):
     async with channel.typing(ctx):
-        len = gen_magic_api_len_by_user_input(len)
-        if len:
-            cards = Card.where(language=len,name=cardName).all()
+        lang = gen_magic_api_lang_by_user_input(lang)
+        if lang:
+            cards = Card.where(language=lang,name=cardName).all()
         else:
             cards = Card.where(name=cardName).all()
 
@@ -89,9 +86,9 @@ async def info(ctx, len,cardName):
             toughness = card_data.toughness
             imageURL = card_data.image_url
 
-            if len:
+            if lang:
                 for card_in_lang in card_data.foreign_names:
-                    if len == card_in_lang['language']:
+                    if lang == card_in_lang['language']:
                         name = card_in_lang['name']
                         text = card_in_lang['text']
                         type_ = card_in_lang['type']
@@ -101,7 +98,6 @@ async def info(ctx, len,cardName):
                 type_ = card_data.type
 
             embed = discord.Embed(title=name,description=text, color=extract_color_hex(colors[0]))
-            #embed.set_thumbnail(url="attachment://image.png")
             embed.add_field(name="Type", value=type_, inline=True)
             embed.add_field(name="Mana Cost", value=mana_cost, inline=True)
             embed.add_field(name="Power/Toughness", value=power+"/"+toughness, inline=True)
@@ -115,18 +111,18 @@ async def info(ctx, len,cardName):
     await channel.send('Done!')
 
 @bot.command()
-async def tr(ctx, original_len,cardName,target_len):
+async def tr(ctx, original_lang,cardName,target_lang):
     async with channel.typing(ctx):
 
-        original_len = gen_magic_api_len_by_user_input(original_len)
-        target_len = gen_magic_api_len_by_user_input(target_len)
+        original_lang = gen_magic_api_lang_by_user_input(original_lang)
+        target_lang = gen_magic_api_lang_by_user_input(target_lang)
 
-        cards = Card.where(language=original_len,name=cardName).all()
+        cards = Card.where(language=original_lang,name=cardName).all()
         if cards:
             names = cards[0].foreign_names
 
             for name in names:
-                if target_len == name['language']:
+                if target_lang == name['language']:
                     await ctx.send(name['name'])
     await channel.send('Done!')
 #
