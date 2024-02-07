@@ -13,7 +13,7 @@ Welcome to the Discord MTG Bot repository! This bot provides Magic: The Gatherin
 To use the Discord MTG Bot, follow these steps:
 
 1. Clone the repository to your local machine.
-2. Install the required dependencies by running `pip install -r requirements.txt`.
+2. Install the required dependencies by running running the setup.sh script.
 3. Set up a Discord bot application and obtain its API key.
 4. Create a `.env` file and add your Discord bot API key using the format `DISCORD_API_KEY=your_api_key_here`.
 5. Run the bot script using `python bot.py`.
