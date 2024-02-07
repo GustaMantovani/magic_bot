@@ -138,14 +138,20 @@ async def tr(ctx, original_lang,cardName,target_lang):
         original_lang = gen_magic_api_lang_by_user_input(original_lang)
         target_lang = gen_magic_api_lang_by_user_input(target_lang)
 
-        cards = Card.where(language=original_lang,name=cardName).all()
+        if original_lang:
+            cards = Card.where(language=original_lang,name=cardName).all()
+        else:
+            cards = Card.where(name=cardName).all()
+
         if cards:
             names = cards[0].foreign_names
-
-            for name in names:
-                if target_lang == name['language']:
-                    await ctx.send(name['name'])
-                    return
+            if target_lang:
+                for name in names:
+                    if target_lang == name['language']:
+                        await ctx.send(name['name'])
+                        return
+            else:
+                await ctx.send(cards[0].name)
         else:
             # Mensagens de erro em diferentes idiomas
             if original_lang == 'Chinese Simplified':
