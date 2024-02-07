@@ -26,11 +26,6 @@ Once the bot is running, users can interact with it using the following commands
 - `Magic tr [original_lang] [cardName] [target_lang]`: Translate MTG card names into other languages.
 - `Magic help [lang]`: Get help information.
 
-## Contributing
-
-Contributions to the Discord MTG Bot are welcome! If you have suggestions, feature requests, or bug reports, please open an issue or submit a pull request to the repository.
-
-
 ## Acknowledgements
 
 - Special thanks to the developers of the `discord.py` library and the MTG API for making this project possible.
